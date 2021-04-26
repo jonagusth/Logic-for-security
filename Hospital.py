@@ -1,4 +1,5 @@
-hi = 1
-if(hi):
-  print('You shall pass this course')
-  print('And with a good grade!')
+#TODO ADD EVERY IMPORT
+#Script file for testing our implementation
+import System from System
+
+hospital =  System.init()
