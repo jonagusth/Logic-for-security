@@ -1,4 +1,4 @@
-import User from user
+from user import User
 
 class System:
   def __init__(self):

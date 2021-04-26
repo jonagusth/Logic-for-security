@@ -1,5 +1,5 @@
 #TODO ADD EVERY IMPORT
 #Script file for testing our implementation
-import System from System
+from system import System
 
-hospital =  System.init()
+hospital =  System()

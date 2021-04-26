@@ -1,4 +1,4 @@
-import User from user
+from user import User
 class Security:
   def __init__(self, owner, readers):
     self.owner = name

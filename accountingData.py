@@ -1,4 +1,4 @@
-import Security from security
+from security import Security
 class AccountingData:
   def __init__(self,Security,Prices):
     self.Security = Security #Owner and readers

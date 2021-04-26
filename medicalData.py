@@ -1,4 +1,4 @@
-import Security from security
+from security import Security
 class MedicalData:
   def __init__(self, Security, history):
     self.Security = Security #Owner and readers

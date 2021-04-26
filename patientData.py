@@ -1,4 +1,4 @@
-import Security from security
+from security import Security
 
 class PatientData:
   def __init__(self, cpr, ip,Security):
