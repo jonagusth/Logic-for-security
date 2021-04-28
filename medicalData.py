@@ -1,6 +1,6 @@
 from security import Security
 class MedicalData:
-  def __init__(self, Security, history):
-    self.Security = Security #Owner and readers
+  def __init__(self, history, security):
+    self.security = security #Owner and readers
     self.history = history #record of every test ordered for patient and the results
 
