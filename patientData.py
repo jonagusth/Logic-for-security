@@ -1,8 +1,8 @@
 from security import Security
 
 class PatientData:
-  def __init__(self, cpr, ip,Security):
+  def __init__(self, cpr, ip, security):
     self.cpr = cpr
     self.ip = ip #Insurance provider
-    self.Security = Security #Owner and readers
+    self.security = security #Owner and readers
 
