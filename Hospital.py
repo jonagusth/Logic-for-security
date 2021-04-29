@@ -2,7 +2,7 @@
 #Script file for testing our implementation
 from medicalData import MedicalData
 from security import Security
-from System import System
+from system import System
 from patientData import PatientData
 
 import sys
