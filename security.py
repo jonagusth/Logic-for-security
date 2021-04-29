@@ -7,7 +7,7 @@ class Security:
 #TODO We have to add that "is it allowed?"
 #Add functions for 
 #   adding readers
-  def add_reader(self, reader):
+  def addReader(self, reader):
     self.readers.append(reader)
 
 #   remove readers
