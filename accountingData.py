@@ -8,11 +8,11 @@ class AccountingData:
 #Changing price of something
 
   def changePrice(self, user, service, newPrice): 
-    if user.type in self.Security.owner:  ## setting owners based on user id ?? how we gonna check who is changing?
-      self.Prices[service] = newPrice
+    if user.type in self.security.owner:  ## setting owners based on user id ?? how we gonna check who is changing?
+      self.prices[service] = newPrice
       with open('prices', 'w') as f:
-        print(self.Prices, file=f)
+        print(self.prices, file=f)
       print('Prices updated:')
-      print(self.Prices)
+      print(self.prices)
     else: 
       print('No access to change Accounting Data')
