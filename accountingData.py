@@ -4,7 +4,8 @@ class AccountingData:
     self.security = security #Owner and readers
     self.prices = prices #Prices of beds, tests of extra services
 
-#TODO Add functions
+#TODO CHANGE TO ROLE BASED ACCESS CONTROL ONLY FOR THIS OBJECT
+#TODO Add View price function
 #Changing price of something
 
   def changePrice(self, user, service, newPrice): 
