@@ -6,7 +6,7 @@ from security import Security
 class System:
   def __init__(self):
     self.users = [] #logged in users
-    self.data = [{'id':1, 'pw':'password','type':1},{'id':2,'pw':'qwerty','type':2}] #database of users and passwords
+    self.data = [{'id':1, 'pw':'password','type':1},{'id':2,'pw':'qwerty','type':2}, {'id':3,'pw':'password','type':3}] #database of users and passwords
     self.docPatient = {}
     file = open('prices', 'r')
     prices = ast.literal_eval(file.read())
