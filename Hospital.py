@@ -38,14 +38,16 @@ else:
 ## User Story 1: ##
 
 # Data Initialization
-pdSecure = Security([patient], [patient])
+pdSecure = Security(patient, [patient]) # {patient : patient}
 patientData = PatientData('cpr0123', 'syge', pdSecure)
 
-mdSecure = Security([hospital], [patient])
+mdSecure = Security(hospital, [patient]) # {hospital : patient}
 medicalData = MedicalData([], mdSecure)
 
+#TODO Initialize accounting data
+
 hospital.assign_doc(doctor, patient) # assign a doctor
-medicalData.security.add_reader(doctor) 
+medicalData.security.addReader(doctor) 
 
 
 # Changing Accounting data
