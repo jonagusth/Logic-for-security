@@ -1,10 +1,18 @@
 from user import User
+import ast
+from accountingData import AccountingData
+from security import Security
 
 class System:
   def __init__(self):
     self.users = [] #logged in users
     self.data = [{'id':1, 'pw':'password','type':1},{'id':2,'pw':'qwerty','type':2}] #database of users and passwords
     self.docPatient = {}
+    file = open('prices', 'r')
+    prices = ast.literal_eval(file.read())
+    file.close()
+
+    self.accountingData = AccountingData(Security([3],[3,4]), prices)
     #TODO add data to txt file
 
 #TODO  hash password

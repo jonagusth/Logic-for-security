@@ -26,6 +26,13 @@ if (doctor != None):
 else:
     sys.exit("Doctor login failed!")
 
+# Admin login
+admin = hospital.login(3, 'password')
+if (admin != None):
+    print("Admin login successfully!")
+else:
+    sys.exit("Admin login failed!")
+
 #TODO insurance staff login
 
 ## User Story 1: ##
@@ -39,6 +46,12 @@ medicalData = MedicalData([], mdSecure)
 
 hospital.assign_doc(doctor, patient) # assign a doctor
 medicalData.security.add_reader(doctor) 
+
+
+# Changing Accounting data
+
+#hospital.accountingData.changePrice(patient,'bingkun', 66666)  #this will fail
+hospital.accountingData.changePrice(admin,'bingkun', 66666)
 
 #TODO create all agents
 # assign doctor to patient
