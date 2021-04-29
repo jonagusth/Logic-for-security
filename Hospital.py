@@ -3,7 +3,14 @@
 from system import System
 
 hospital =  System()
-hospital.login(1,'password')
+adam = hospital.login(1,'password')
+admin = hospital.login(3,'password')
+
+#hospital.accountingData.changePrice(adam,'siggi', 222)
+hospital.accountingData.changePrice(admin,'jón', 100000)
+
+
+
 
 #TODO create all agents
 # assign doctor to patient
