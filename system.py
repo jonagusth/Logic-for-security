@@ -6,12 +6,12 @@ from security import Security
 class System:
   def __init__(self):
     self.users = [] #logged in users
-    self.data = [{'id':1, 'pw':'password','type':1},{'id':2,'pw':'qwerty','type':2}, {'id':3,'pw':'password','type':3}] #database of users and passwords
+    self.data = [{'id':1, 'pw':'password','type':1},{'id':2,'pw':'qwerty','type':2}, {'id':3,'pw':'password','type':3},{'id':4,'pw':'sebastian','type':4}] #database of users and passwords
     self.docPatient = {}
     file = open('prices', 'r')
     prices = ast.literal_eval(file.read())
     file.close()
-
+    #TODO add user  data and medical data to files
     self.accountingData = AccountingData(Security([3],[3,4]), prices)
     #TODO add data to txt file
 

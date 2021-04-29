@@ -1,3 +1,12 @@
 
 *.pyc
 __pycache__/
+__pycache__/medicalData.cpython-39.pyc
+__pycache__/security.cpython-39.pyc
+__pycache__/user.cpython-39.pyc
+*.pyc
+__pycache__/medicalData.cpython-39.pyc
+__pycache__/patientData.cpython-39.pyc
+__pycache__/security.cpython-39.pyc
+__pycache__/system.cpython-39.pyc
+__pycache__/user.cpython-39.pyc

@@ -6,7 +6,7 @@ from system import System
 from patientData import PatientData
 
 import sys
-
+#TODO add command line functionality
 ## Initialize the System
 hospital = System()
 
@@ -33,7 +33,12 @@ if (admin != None):
 else:
     sys.exit("Admin login failed!")
 
-#TODO insurance staff login
+#Insurance staff login
+insurance = hospital.login(4, 'password')
+if (admin != None):
+    print("Insurance login successfully!")
+else:
+    sys.exit("Insurance login failed!")
 
 ## User Story 1: ##
 
@@ -42,13 +47,12 @@ pdSecure = Security(patient, [patient]) # {patient : patient}
 patientData = PatientData('cpr0123', 'syge', pdSecure)
 
 mdSecure = Security(hospital, [patient]) # {hospital : patient}
-medicalData = MedicalData([], mdSecure)
+medicalData = MedicalData([], mdSecure, patientData.cpr)
 
 #TODO Initialize accounting data
 
 hospital.assign_doc(doctor, patient) # assign a doctor
 medicalData.security.addReader(doctor) 
-
 
 # Changing Accounting data
 
@@ -56,5 +60,8 @@ medicalData.security.addReader(doctor)
 hospital.accountingData.changePrice(admin,'bingkun', 66666)
 
 #TODO create all agents
+# Make security policies private variables
 # assign doctor to patient
+# test doctor reading patient data
 # insurance provider looks up prices
+# Doctor request to add treatment, hospital admin approves/rejects
