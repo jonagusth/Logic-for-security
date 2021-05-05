@@ -8,25 +8,25 @@ from security import Security
 class System:
   def __init__(self):
     # initialize the user data from databse
-    file = open('users', 'r')
+    file = open('./datas/users', 'r')
     self.users = ast.literal_eval(file.read())
     file.close()
     # initialize the medical data from database
-    file = open('medicals', 'r')
+    file = open('./datas/medicals', 'r')
     meddata = ast.literal_eval(file.read())
     file.close()
     self.medicals = {} # id - medicalData pairs
     for i in meddata:
       self.medicals[i['id']] = MedicalData(i['history'], Security(i['owners'], i['readers']), i['cpr'])
     # initialize the accounting data from database
-    file = open('accounts', 'r')
+    file = open('./datas/accounts', 'r')
     accdata = ast.literal_eval(file.read())
     file.close()
     self.accounts = {} # id - accountsData pairs
     for i in accdata:
       self.accounts[i['id']] = AccountingData(Security(i['owners'], i['readers']), i['record'])
     # initialize the price of treatment from database
-    file = open('prices', 'r')
+    file = open('./datas/prices', 'r')
     self.prices = ast.literal_eval(file.read())
     file.close()
 
