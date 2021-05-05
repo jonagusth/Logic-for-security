@@ -7,9 +7,9 @@ from patientData import PatientData
 
 import sys
 #TODO add command line functionality
+
 ## Initialize the System
 hospital = System()
-
 ## User Registration ##
 
 # patient login
@@ -26,16 +26,16 @@ if (doctor != None):
 else:
     sys.exit("Doctor login failed!")
 
-# Admin login
-admin = hospital.login(3, 'password')
-if (admin != None):
-    print("Admin login successfully!")
-else:
-    sys.exit("Admin login failed!")
+# # Admin login
+# admin = hospital.login(3, 'password')
+# if (admin != None):
+#     print("Admin login successfully!")
+# else:
+#     sys.exit("Admin login failed!")
 
 #Insurance staff login
-insurance = hospital.login(4, 'password')
-if (admin != None):
+insurance = hospital.login(4, 'sebastian')
+if (insurance != None):
     print("Insurance login successfully!")
 else:
     sys.exit("Insurance login failed!")
@@ -43,23 +43,38 @@ else:
 ## User Story 1: ##
 
 # Data Initialization
-pdSecure = Security(patient, [patient]) # {patient : patient}
-patientData = PatientData('cpr0123', 'syge', pdSecure)
 
-mdSecure = Security(hospital, [patient]) # {hospital : patient}
-medicalData = MedicalData([], mdSecure, patientData.cpr)
+# patient id 1 show his personal data
+# insurance provider is id 4
+patientData = PatientData('123456', 4, Security([1], [0,1])) 
 
-#TODO Initialize accounting data
+# Doctor Assignment
+hospital.assign_doc(2, 1)
 
-hospital.assign_doc(doctor, patient) # assign a doctor
-medicalData.security.addReader(doctor) 
+# Doctor Check the Medical History
+hospital.checkMedicalHistory(2, 1)
 
-# Changing Accounting data
+# Order a Treatment
+hospital.orderTest(2, 1, 'Hospital bed for 1 night')
+
+# patient leave the doctor
+hospital.leave_doc(2, 1)
+
+## User Story 2: ##
+
+# Send the bill to insurance provider
+hospital.sendBill(1, patientData)
+
+# patient get back his/her doctor from the hospital
+patientData.security.readers.remove(0) 
+
+# Insurance provider check the bill and pay unpaid items
+hospital.checkBillandPay(4, 1)
 
 #hospital.accountingData.changePrice(patient,'bingkun', 66666)  #this will fail
-hospital.accountingData.changePrice(admin,'bingkun', 66666)
+# hospital.accountingData.changePrice(admin,'bingkun', 66666)
 
-#TODO create all agents
+#TODO
 # Make security policies private variables
 # assign doctor to patient
 # test doctor reading patient data
