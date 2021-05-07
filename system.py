@@ -29,10 +29,12 @@ class System:
     file = open('prices', 'r')
     self.prices = ast.literal_eval(file.read())
     file.close()
+    file = open('docPatients', 'r')
+    self.docPatient = ast.literal_eval(file.read())
+    file.close()
 
     self.activeUsers = [] #logged in users
     self.user = None
-    self.docPatient = []
     #TODO add data to txt file
 
 #TODO  hash password
@@ -40,39 +42,60 @@ class System:
     for i in self.users:
       if id == i['id'] and password == i['pw']:
         ret = User(id,i['type'])
-        self.activeUsers.append(ret)
+        # self.activeUsers.append(ret)
         self.user = ret
         return ret
 
+  def logout(self, id):
+    self.user = None
+
   def addReader(self, data, reader):
-    data.security.readers.append(reader)
+    if reader not in data.security.readers:
+      data.security.readers.append(reader)
   
   def addOwner(self, data, owner):
-    data.security.owners.append(owner)
+    if owner not in data.security.owners:
+      data.security.owners.append(owner)
 
   def popReader(self, data, reader):
-    data.security.readers.remove(reader)
+    if reader in data.security.readers:
+      data.security.readers.remove(reader)
   
   def popOwner(self, data, owner):
-    data.security.owners.remove(owner)
+    if owner in data.security.owners:
+      data.security.owners.remove(owner)
   
 
 #TODO add assign patient to doctor function
   def assign_doc(self, doctor, patient):
-    self.docPatient.append({doctor:patient})
+    if {doctor:patient} not in self.docPatient:
+      self.docPatient.append({doctor:patient})
+    with open('docPatients', 'w') as f:
+      print(self.docPatient, file=f)
     self.addReader(self.medicals[patient], doctor)
     self.addOwner(self.medicals[patient], doctor)
-    print('patient', patient, 'assigned to doctor', doctor)
+    #print(self.medicals[patient].data)
+    # [{'owners':[0], 'readers':[0], 'id':1, 'cpr':123456, 'history':[{'name':'Blood test', 'result':'standard'}]}]
+    tmp = [{'owners':self.medicals[patient].security.owners, 'readers':self.medicals[patient].security.readers, 'id':patient, 'cpr':self.medicals[patient].cpr, 'history':self.medicals[patient].history}]
+    with open('medicals', 'w') as f:
+      print(tmp, file=f)
+    print('patient {} assigned to doctor {}'.format(patient, doctor))
 
   def leave_doc(self, doctor, patient):
     self.docPatient.remove({doctor:patient})
+    with open('docPatients', 'w') as f:
+      print(self.docPatient, file=f)
     self.popReader(self.medicals[patient], doctor)
     self.popOwner(self.medicals[patient], doctor)
-    print('patient', patient, 'leave doctor', doctor)
+    tmp = [{'owners':self.medicals[patient].security.owners, 'readers':self.medicals[patient].security.readers, 'id':patient, 'cpr':self.medicals[patient].cpr, 'history':self.medicals[patient].history}]
+    with open('medicals', 'w') as f:
+      print(tmp, file=f)
+    print('patient {} leaves doctor {}'.format(patient, doctor))
 
   def checkMedicalHistory(self, doctor, patient):
     if doctor in self.medicals[patient].security.readers:
-      print("Doctor check the medical history!")
+      print("Doctor check the medical history:")
+      print(self.medicals[patient].history)
     else:
       print("Doctor does not have access to this patient's data!")
 
@@ -80,15 +103,21 @@ class System:
     if doctor in self.medicals[patient].security.owners:
       self.medicals[patient].history.append({'name':treatment, 'result':'standard'})
       self.accounts[patient].record.append({'name':treatment, 'cost':self.prices[treatment], 'status':'unpaid'})
-      print("Treatment conducted!")
-      print("{} added to patiens hospital bill for: {}".format(self.prices[treatment], treatment))
+      tmp = [{'owners':self.medicals[patient].security.owners, 'readers':self.medicals[patient].security.readers, 'id':patient, 'cpr':self.medicals[patient].cpr, 'history':self.medicals[patient].history}]
+      with open('medicals', 'w') as f:
+        print(tmp, file=f)
+
+      tmp1 = [{'owners':self.accounts[patient].security.owners, 'readers':self.accounts[patient].security.readers, 'id':patient, 'cpr':self.accounts[patient].cpr, 'history':self.accounts[patient].history}]
+      with open('accounts', 'w') as f:
+        print(tmp1, file=f)
+      print("{} added to patients hospital bill for: {}".format(self.prices[treatment], treatment))
     else:
       print("Doctor not authorized to order a test!")
 
   def sendBill(self, patient, patientData):
     if 0 in patientData.security.readers:
       self.addReader(self.accounts[patient], patientData.ip)
-      print("patient", patient, "'s bill send to insurance")
+      print("patient {}'s bill sent to his insurance provider".format(patient), patient)
     else:
       print("Can't find insurance! patient data not provided!")
 
