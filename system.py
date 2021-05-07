@@ -33,6 +33,18 @@ class System:
     self.docPatient = ast.literal_eval(file.read())
     file.close()
 
+    self.doctors = []
+
+    for i in self.users:
+      if i['type'] == 2:
+        self.doctors.append(i['id'])
+    
+    self.iProviders = []
+
+    for i in self.users:
+      if i['type'] == 4:
+        self.doctors.append(i['id'])
+
     self.activeUsers = [] #logged in users
     self.user = None
     #TODO add data to txt file
@@ -44,7 +56,8 @@ class System:
         ret = User(id,i['type'])
         # self.activeUsers.append(ret)
         self.user = ret
-        return ret
+        return ret 
+    print('invalid user Id or password')
 
   def logout(self, id):
     self.user = None
