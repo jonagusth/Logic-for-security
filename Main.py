@@ -107,6 +107,8 @@ while command != '':
                             k = key_list[index]
                     hospital.leave_doc(k, patient.id)
                     hospital.sendBill(patient.id, patientData)
+                    # patient removes the hospital from readers of his data
+                    patientData.security.readers.remove(0) 
                 else: 
                     print('Only patients can check out')
             else:
