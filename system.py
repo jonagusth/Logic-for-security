@@ -31,6 +31,7 @@ class System:
     file.close()
 
     self.activeUsers = [] #logged in users
+    self.user = None
     self.docPatient = []
     #TODO add data to txt file
 
@@ -40,6 +41,7 @@ class System:
       if id == i['id'] and password == i['pw']:
         ret = User(id,i['type'])
         self.activeUsers.append(ret)
+        self.user = ret
         return ret
 
   def addReader(self, data, reader):
@@ -79,6 +81,7 @@ class System:
       self.medicals[patient].history.append({'name':treatment, 'result':'standard'})
       self.accounts[patient].record.append({'name':treatment, 'cost':self.prices[treatment], 'status':'unpaid'})
       print("Treatment conducted!")
+      print("{} added to patiens hospital bill for: {}".format(self.prices[treatment], treatment))
     else:
       print("Doctor not authorized to order a test!")
 
