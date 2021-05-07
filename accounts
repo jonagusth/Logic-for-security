@@ -1,1 +1,1 @@
-[{'owners':[0], 'readers':[0], 'id':1, 'record':[{'name':'Blood test', 'cost':115, 'status':'paid'}]}]
+[{'owners': [0], 'readers': [0], 'id': 1, 'record': [{'name': 'Blood test', 'cost': 115, 'status': 'paid'}, {'name': 'std test', 'cost': 1111, 'status': 'unpaid'}]}]

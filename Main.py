@@ -21,7 +21,7 @@ insurance = None
 
 command = ' '
 
-while command != '':
+while command != 'quit':
 
     command = input('Choose action or write "help" to see all options: ')
 
@@ -35,12 +35,13 @@ while command != '':
         print('status (who is logged in?)')
         print('users')
         print('logout')
+        print('quit')
 
 
     # login command
-    if (command == "login"):
+    elif (command == "login"):
         if currUser != None:
-            print('You are already logged in as user: {}')
+            print('You are already logged in as user: {}'.format(currUser.id))
         else:
             ## User Registration ##
             tmp = ''
@@ -51,6 +52,12 @@ while command != '':
                         print('User does not exist')
                     else: 
                         userId = int(tmp)
+                        if userId in hospital.doctors:
+                            print('You are logging in as a doctor')
+                        elif userId in hospital.iProviders:
+                            print('You are logging in as an insurance provider')
+                        else:
+                            print('you are logging in as a patient')
                 else: 
                     print('Invalid user Id')
 
@@ -66,11 +73,7 @@ while command != '':
                 # doctor login
                 doctor = currUser
                 print("Doctor login successfully!")
-            elif currUser.type == 3:
-                # Admin login
-                admin = currUser
-                print("Admin login successfully!")
-            elif currUser.type == 3:
+            elif currUser.type == 4:
                 #Insurance staff login
                 insurance = currUser
                 print("Insurance login successfully!")
@@ -78,12 +81,15 @@ while command != '':
                 sys.exit("Login failed!")
 
     elif (command == "logout"):
-        print('user {} logged out successfully'.format(currUser.id))
-        patient = None
-        doctor = None
-        admin = None
-        insurance = None
-        currUser = None
+        if currUser != None:
+            print('user {} logged out successfully'.format(currUser.id))
+            patient = None
+            doctor = None
+            admin = None
+            insurance = None
+            currUser = None
+        else: 
+            print('You have to be logged in to be able to log out')
     
     # check in command
     elif (command == "check in"):
@@ -96,15 +102,16 @@ while command != '':
                 tmp = ''
                 insuranceProvider = None
                 while tmp.isdigit() == False:
-                    tmp = input('Insurance provider id (hint, its 4): ')
+                    tmp = input('Insurance provider id (hint, its 4 or 5): ')
                     if tmp.isdigit():
                         if int(tmp) in hospital.iProviders:
                             insuranceProvider = int(tmp)
                         else: 
-                            print('insurance provider does not exist ( told you it was 4 :P )')
+                            print('insurance provider does not exist ( told you it was 4 or 5 :P )')
+                            tmp = ''
                     else: 
                         print('Invalid id')
-                # insurance provider is id 4
+                # id 0 is the system itself, when we check in to the hospital we give the system/hosptal acess to our data
                 patientData = PatientData(cpr, insuranceProvider, Security([patient.id], [0,patient.id]))
                 # Patient gets assigned a random doctor and by that gives him access to his medical data
                 doc = random.choice(hospital.doctors)
@@ -113,7 +120,7 @@ while command != '':
             else: 
                 print('Only patients can check in') 
         else:
-            print('You have to be logged in')
+            print('You have to be logged in to access this function')
 
     # check out command
     elif (command == "check out"):
@@ -140,7 +147,7 @@ while command != '':
             else:
                 print('You have to be checked in to be able to check out')
         else:
-            print('You have to be logged in')
+            print('You have to be logged in to access this function')
 
     # check history command
     elif (command == "check history"):
@@ -153,18 +160,19 @@ while command != '':
                 while tmp.isdigit() == False:
                     tmp = input('patient id:')
                     if tmp.isdigit():
-                        if int(tmp) > len(hospital.users):
-                            print('User does not exist')
+                        if int(tmp) not in hospital.patients:
+                            print('Patient does not exist')
+                            tmp = ''
                         else: 
                             patientToCheck = int(tmp)
                     else: 
                         print('Invalid user Id')
                 # Doctor checks medical history of patient if he is the patients doctor
-                print(hospital.docPatient)
                 hospital.checkMedicalHistory(doctor.id, patientToCheck)
             else: 
-                print('Only patients can check out')
-        print('You have to be logged in')
+                print('Only relevent doctors can check medical history of patients')
+        else:
+            print('You have to be logged in to access this function')
     
     # order test command
     elif (command == "order test"):
@@ -177,8 +185,9 @@ while command != '':
                 while tmp.isdigit() == False:
                     tmp = input('patient to test:')
                     if tmp.isdigit():
-                        if int(tmp) > len(hospital.users):
-                            print('User does not exist')
+                        if int(tmp) not in hospital.patients:
+                            print('Patient does not exist')
+                            tmp = ''
                         else: 
                             patientToTest = int(tmp)
                     else: 
@@ -187,8 +196,9 @@ while command != '':
                 # Doctor orders a test for the patient and if alloweed its added to patients medical file
                 hospital.orderTest(doctor.id, patientToTest, test)
             else: 
-                print('Only patients can check out')
-        print('You have to be logged in')
+                print('Only relevant doctors can order tests for patients')
+        else:
+            print('You have to be logged in to access this function')
 
     # pay bill command
     elif (command == "pay bill"):
@@ -202,8 +212,9 @@ while command != '':
                 while tmp.isdigit() == False:
                     tmp = input('patient to pay bill for:')
                     if tmp.isdigit():
-                        if int(tmp) > len(hospital.users):
-                            print('User does not exist')
+                        if int(tmp) not in hospital.patients:
+                            print('Patient does not exist')
+                            tmp = ''
                         else: 
                             patientToPayFor = int(tmp)
                     else: 
@@ -211,7 +222,8 @@ while command != '':
                 hospital.checkBillandPay(insurance.id, patientToPayFor)
             else: 
                 print('Only insurance providers can pay bills')
-        print('You have to be logged in')
+        else:
+            print('You have to be logged in to access this function')
 
     # status command
     elif (command == "status"):
@@ -226,7 +238,7 @@ while command != '':
             if insurance != None:
                 print('You are logged in as insurance provider {}'.format(insurance.id))
         else:
-            print('You are not logged in')
+            print('You are not logged in to access this function')
 
     # users command
     elif (command == "users"):
@@ -237,7 +249,13 @@ while command != '':
             print('User 2: user id: 2, pw: password, type: doctor')
             print('User 3: user id: 3, pw: password, type: doctor')
             print('User 4: user id: 4, pw: password, type: insurance provider')
+            print('User 5: user id: 5, pw: password, type: insurance provider')
 
+    # quit command
+    elif (command == "quit"):
+        sys.exit()
+
+    # invalid command
     else:
         print('Invalid command, type "help" too see all options')
 

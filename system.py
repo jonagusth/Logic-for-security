@@ -33,6 +33,12 @@ class System:
     self.docPatient = ast.literal_eval(file.read())
     file.close()
 
+    self.patients = []
+
+    for i in self.users:
+      if i['type'] == 1:
+        self.patients.append(i['id'])
+
     self.doctors = []
 
     for i in self.users:
@@ -43,9 +49,8 @@ class System:
 
     for i in self.users:
       if i['type'] == 4:
-        self.doctors.append(i['id'])
+        self.iProviders.append(i['id'])
 
-    self.activeUsers = [] #logged in users
     self.user = None
     #TODO add data to txt file
 
@@ -115,12 +120,16 @@ class System:
   def orderTest(self, doctor, patient, treatment):
     if doctor in self.medicals[patient].security.owners:
       self.medicals[patient].history.append({'name':treatment, 'result':'standard'})
+      if treatment not in self.prices:
+        self.prices[treatment] = 1111 # dummy price for new service
+        with open('prices', 'w') as f:
+          print(self.prices, file=f)
       self.accounts[patient].record.append({'name':treatment, 'cost':self.prices[treatment], 'status':'unpaid'})
       tmp = [{'owners':self.medicals[patient].security.owners, 'readers':self.medicals[patient].security.readers, 'id':patient, 'cpr':self.medicals[patient].cpr, 'history':self.medicals[patient].history}]
       with open('medicals', 'w') as f:
         print(tmp, file=f)
 
-      tmp1 = [{'owners':self.accounts[patient].security.owners, 'readers':self.accounts[patient].security.readers, 'id':patient, 'cpr':self.accounts[patient].cpr, 'history':self.accounts[patient].history}]
+      tmp1 = [{'owners':self.accounts[patient].security.owners, 'readers':self.accounts[patient].security.readers, 'id':patient, 'record':self.accounts[patient].record}]
       with open('accounts', 'w') as f:
         print(tmp1, file=f)
       print("{} added to patients hospital bill for: {}".format(self.prices[treatment], treatment))
@@ -130,7 +139,7 @@ class System:
   def sendBill(self, patient, patientData):
     if 0 in patientData.security.readers:
       self.addReader(self.accounts[patient], patientData.ip)
-      print("patient {}'s bill sent to his insurance provider".format(patient), patient)
+      print("patient {}'s bill sent to his insurance provider".format(patient))
     else:
       print("Can't find insurance! patient data not provided!")
 
