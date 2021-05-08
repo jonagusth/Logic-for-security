@@ -1,1 +1,1 @@
-[{'owners': [0], 'readers': [0], 'id': 1, 'cpr': 123456, 'history': [{'name': 'Blood test', 'result': 'standard'}, {'name': 'cat scan', 'result': 'standard'}, {'name': 'std test', 'result': 'standard'}]}]
+[{'owners': [0, 3], 'readers': [0, 3, 1], 'id': 1, 'cpr': 123456, 'history': [{'name': 'Blood test', 'result': 'standard'}, {'name': 'cat scan', 'result': 'standard'}, {'name': 'std test', 'result': 'standard'}]}]

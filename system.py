@@ -91,6 +91,7 @@ class System:
     with open('docPatients', 'w') as f:
       print(self.docPatient, file=f)
     self.addReader(self.medicals[patient], doctor)
+    self.addReader(self.medicals[patient], patient)
     self.addOwner(self.medicals[patient], doctor)
     #print(self.medicals[patient].data)
     # [{'owners':[0], 'readers':[0], 'id':1, 'cpr':123456, 'history':[{'name':'Blood test', 'result':'standard'}]}]
@@ -110,12 +111,16 @@ class System:
       print(tmp, file=f)
     print('patient {} leaves doctor {}'.format(patient, doctor))
 
-  def checkMedicalHistory(self, doctor, patient):
-    if doctor in self.medicals[patient].security.readers:
-      print("Doctor check the medical history:")
-      print(self.medicals[patient].history)
+  def checkMedicalHistory(self, reader, patient):
+    if reader in self.medicals[patient].security.readers:
+      if reader == patient:
+        print('Patient checks his own medical history')
+        print(self.medicals[patient].history)
+      else:
+        print("Doctor check the medical history:")
+        print(self.medicals[patient].history)
     else:
-      print("Doctor does not have access to this patient's data!")
+      print("User does not have access to this patient's data!")
 
   def orderTest(self, doctor, patient, treatment):
     if doctor in self.medicals[patient].security.owners:

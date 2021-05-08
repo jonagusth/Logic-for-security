@@ -115,7 +115,7 @@ while command != 'quit':
                 patientData = PatientData(cpr, insuranceProvider, Security([patient.id], [0,patient.id]))
                 # Patient gets assigned a random doctor and by that gives him access to his medical data
                 doc = random.choice(hospital.doctors)
-                hospital.assign_doc(2, patient.id)
+                hospital.assign_doc(doc, patient.id)
                 checkedIn = True
             else: 
                 print('Only patients can check in') 
@@ -169,8 +169,13 @@ while command != 'quit':
                         print('Invalid user Id')
                 # Doctor checks medical history of patient if he is the patients doctor
                 hospital.checkMedicalHistory(doctor.id, patientToCheck)
+            elif patient != None:
+                if checkedIn:
+                    hospital.checkMedicalHistory(patient.id, patient.id)
+                else: 
+                    print('You have to be checked in to see medical history')
             else: 
-                print('Only relevent doctors can check medical history of patients')
+                print('Only relevent doctors can check medical history of patients(and the patient himself')
         else:
             print('You have to be logged in to access this function')
     
