@@ -98,7 +98,7 @@ while command != 'quit':
         if currUser != None:
             if patient != None:
                 # Promt for his cpr number and insurance provider at the fromnt desk
-                cpr = input('cpr: ')
+                cpr = hospital.medicals[patient.id].cpr
                 tmp = ''
                 insuranceProvider = None
                 while tmp.isdigit() == False:
