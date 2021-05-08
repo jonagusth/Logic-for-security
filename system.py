@@ -105,6 +105,7 @@ class System:
     with open('docPatients', 'w') as f:
       print(self.docPatient, file=f)
     self.popReader(self.medicals[patient], doctor)
+    self.popReader(self.medicals[patient], patient)
     self.popOwner(self.medicals[patient], doctor)
     tmp = [{'owners':self.medicals[patient].security.owners, 'readers':self.medicals[patient].security.readers, 'id':patient, 'cpr':self.medicals[patient].cpr, 'history':self.medicals[patient].history}]
     with open('medicals', 'w') as f:
