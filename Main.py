@@ -243,7 +243,7 @@ while command != 'quit':
             if insurance != None:
                 print('You are logged in as insurance provider {}'.format(insurance.id))
         else:
-            print('You are not logged in to access this function')
+            print('You are not logged in')
 
     # users command
     elif (command == "users"):
